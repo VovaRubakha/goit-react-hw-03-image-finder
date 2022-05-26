@@ -2,9 +2,9 @@
 
 import styles from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ url }) => {
+const ImageGalleryItem = ({ url, onClick }) => {
   return (
-    <li className={styles.ImageGalleryItem}>
+    <li className={styles.ImageGalleryItem} onClick={onClick}>
       <img
         className={styles.ImageGalleryItemImage}
         src={url}

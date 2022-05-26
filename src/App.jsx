@@ -4,6 +4,7 @@ import styles from './App.module.css';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
 import Button from 'shared/components/Button/Button';
+import Modal from 'shared/components/Modal';
 
 
 import { getImages } from 'shared/services/images';
@@ -15,6 +16,8 @@ class App extends Component {
     loading: false,
     error: null,
     page: 1,
+    isModalOpen: false,
+    modalData: '',
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -58,18 +61,36 @@ class App extends Component {
     })
   }
   
+  showModal = modalData => {
+    this.setState({
+      isModalOpen: true,
+      modalData,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      isModalOpen: false,
+    });
+  };
+
   render() {
-    const { loading, items } = this.state;
-    const { setSearch, loadMore} = this;
+    const { loading, items, isModalOpen, modalData } = this.state;
+    const { setSearch, loadMore, showModal, closeModal} = this;
     return (
       <div className={styles.App}>
         <Searchbar onSubmit={setSearch} />
         {Boolean(items.length) &&
-          <ImageGallery items={items} />
+          <ImageGallery items={items} onClick={showModal}/>
         }
         {loading && <p>...Loading</p>}
         {!loading && Boolean(items.length) && (
           <Button text='Load more' loadMore={loadMore}></Button>
+        )}
+        {isModalOpen && (
+          <Modal close={closeModal}>
+            <img src={modalData} alt="Nothing to see here" />
+          </Modal>
         )}
       </div>
     );
