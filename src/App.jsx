@@ -5,7 +5,7 @@ import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
 import Button from 'shared/components/Button/Button';
 import Modal from 'shared/components/Modal';
-
+import Loader from 'shared/components/Loader';
 
 import { getImages } from 'shared/services/images';
 
@@ -79,11 +79,12 @@ class App extends Component {
     const { setSearch, loadMore, showModal, closeModal} = this;
     return (
       <div className={styles.App}>
+        
         <Searchbar onSubmit={setSearch} />
         {Boolean(items.length) &&
           <ImageGallery items={items} onClick={showModal}/>
         }
-        {loading && <p>...Loading</p>}
+        {loading && <Loader/>}
         {!loading && Boolean(items.length) && (
           <Button text='Load more' loadMore={loadMore}></Button>
         )}
